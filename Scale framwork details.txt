@@ -1,0 +1,44 @@
+Code versioning: Github (feature branches strategy)
+
+Infra structure as code: 
+(AWS codepipeline, Codebuild, CodeDeploy, EC2, ECR) using IaC tools like, AWS codeFormation, Terraform, or AWS CDK)
+Maintain auditable infrastructure configuration
+
+Continious Integration (CI):
+build test & pakcaging appliction
+
+Containerization: Docker (Images -> ECR publicbase images) 
+
+Continuous Deployment: AWS codedeploy to target env EC2 instances
+use appspec.yml file to manage this
+
+Security & permissions: Secret maneger, parameter store to store the environment variables
+
+Ensure the n/w security, firewall activation
+
+Monitoring & logging:
+
+Impliment logging (cloud watch logs, AWS codedeploy logs) for build & Deployment & application runtime
+
+Monitor Deployment and infra using Cloud Watch, metrics, alarams
+& Dashboards
+
+Sclability & Reproducibility:
+
+Governance & Complience: DVC, mlflow & model registry version control both data & code
+
+
+-----------------------------------------------------------
+--------------CI/CD pipeline using AWS --------------------
+
+Source Stage: Code change in github triggers the pipeline
+
+Build Stage: 
+ 	CiodeBuild pull the source code, download model from s3 
+ 	Docker image built & tested 
+ 	Image pushed to AMAzon ECR
+
+Deploy Stage: 
+	CodeDeplot retrives the artifacts (including appsepec.yml, scripts)
+	Lifecycle hooks manage container stop, install & starts
+
