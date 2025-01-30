@@ -7,3 +7,8 @@ This project is based on SCALE frameworks, which uses AWS services such as, code
 # Poject workflow
 
 ![Project Workflow](images/scale_ml_project_flow.png)
+
+# Docker test
+![dockertest](images/dockertests.PNG)
+
+![dockertest](images/docker_test2.PNG)
