@@ -1,0 +1,26 @@
+In order to fit this in AWS :
+
+1) create 
+
+generally, we place model file in seperate folder 
+
+
+1) create s3 bucket >  enable versioning in the s3 bucket > place model file in s3 bucket 
+1) prepare the requirements.txt with specific library version to avoid dependancy issues
+
+2)conda create --name demo prject 1 python =3.11 -y
+
+
+**************************** Create Codepipeline ***********************************
+setting -> connection >> new connection >> provider Github >> connection name <anything> >> connect to Github
+
+>> configure with github >> authenticate 
+
+
+>> create pipliine >> build custome pipleine >> pipeline >> creat new service role > githubh source provide >> connect ion setup >> setup the repositoyt >> default branch main branch >> Build provider 
+
+
+
+
+
+

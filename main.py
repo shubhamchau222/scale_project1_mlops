@@ -43,7 +43,7 @@ def predict_iris(data: IrisData):
 
     """predict the species based on given number"""
     data = data.dict()
-    print("DTTTTTTTTTTTTTTTTTT : ", data)
+    # print("DTTTTTTTTTTTTTTTTTT : ", data)
     sepal_length = data["sepal_length"]
     sepal_width = data["sepal_width"]
     petal_length = data["petal_length"]
@@ -51,7 +51,7 @@ def predict_iris(data: IrisData):
 
     #convert data to dataframe
     input_data = pd.DataFrame([[sepal_length, sepal_width, petal_length, petal_width]], columns=["sepal_length", "sepal_width", "petal_length", "petal_width"])
-    print("Input data given by the user for predictions is :")
+    print("Input data inserted by the user for predictions is :")
     print(input_data)
 
     # Make prediction
@@ -64,6 +64,9 @@ def predict_iris(data: IrisData):
 
 # Run the FASTapi application with uvicorn
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run( app, 
+                host="127.0.0.1", 
+                port=8000
+                )
 
 

@@ -1,0 +1,61 @@
+#this file help to build & test the project
+#buildspec.yml file should be always in root folder
+
+version: 0.2
+
+#define the environment variables
+env:
+  variables:
+    AWS_REGION: us-east-1
+    REPOSITORY_NAME: "enterprise-mlpos-app"
+    ACCOUNT_ID: "Define your account ID here"
+
+phases:
+  #install the dependancies
+  install:
+    commands:
+      - echo "Install Phase"
+      - echo "Installing the requirements.txt"
+      - pip install -r requirements.txt
+  
+  pre_build:
+    commands:
+      - echo "Prebuild phase"
+      - echo "Login to AWS ECR Public"
+      - aws ecr-pulic get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin public.ecr.aws
+      - echo "login to My own AMAZON own ECR"
+      # https://docs.aws.amazon.com/cli/latest/reference/ecr/get-login-password.html
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo "Setting up repositity"
+      - REPOSITORY_URI= $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPOSITORY_NAME
+      - export IMAGE_TAG = "latest"
+      - mkdir -p model
+      # let's provide model_s3_path during runtime
+      #copy the modelfrom s3 bucket to model/ folder
+      - aws s3 cp $MODEL_S3_PATH ./model/iris_model.joblib
+
+  build:
+    commands:
+      - echo "Build Phase"
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - echo "Running the tests inside the docker container.... pyttests"
+      - docker run --rm $REPOSITORY_URI:$IMAGE_TAG -m pytest tests/
+      # --rm: This tells Docker to remove the container after it has finished running. It helps keep your system clean by preventing leftover containers that aren't needed anymore. This is especially useful when you're running containers for short-lived tasks or testing.
+      # -m pytest: This option tells Python to run pytest in module mode (as a script). pytest is a testing framework for Python, and -m pytest means you're asking Python to run pytest inside the container
+  
+  post_build:
+    commands:
+      - echo "POST Build Phase"
+      - echo "Once the test successfull.. Push the Docker Image to ECR"
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "prepare the artifacts metadata"
+      - echo "export IMAGE_URI= $REPOSITORY_URI:$IMAGE_TAG" > atrifact_metadata.json
+
+  artifacts:
+    files:
+      #copy all the files
+      - "**/**"
+      - discard_paths: no
+
+
+
