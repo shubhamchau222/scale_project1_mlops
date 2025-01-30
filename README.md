@@ -6,9 +6,11 @@ This project is based on SCALE frameworks, which uses AWS services such as, code
 
 # Poject workflow
 
-![Project Workflow](Images/Autogen Agents workflows.PNG)
+![Alt text](https://github.com/shubhamchau222/scale_project1_mlops/blob/main/Images/scale_ml_project_flow.PNG)
 
 # Docker test
 ![dockertest](Images/dockertests.PNG)
 
 ![dockertest](Images/docker_test2.PNG)
+
+
